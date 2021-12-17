@@ -15,7 +15,7 @@ FinishLaunch should be called in k6 teardown function.
 
 Report Config json has project name, token ,launch name and description. Fill it according to your project.
 
-## demo_rp_k6_agent.js
+## demo_k6_rp_agent.js
 
 This is K6 test script with setup ,teardown and default function.
 As K6 setup doesn't allow object creation startLaunch is a function instead of method.
