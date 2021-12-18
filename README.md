@@ -19,7 +19,7 @@ Report Config json has project name, token ,launch name and description. Fill it
         "endpoint": "http://<your report portal ip>:8080/api/v1",
         "token": "00000000-0000-0000-0000-000000000000",
         "launch": "K6 Performance Test Launch",
-        "project": "SAMPLE_PERFTEST",
+        "project": "PERFTEST",
         "description": "K6 Performance Test for my tests"
       }
 ```
