@@ -26,7 +26,7 @@ Report Config json has project name, token ,launch name and description. Fill it
 ## demo_k6_rp_agent.js
 
 This is K6 test script with setup ,teardown and default function.
-As K6 setup doesn't allow object creation startLaunch is a function instead of method.
+As K6 doesn't allow object creation in setup() function, startLaunch is a function instead of method.
 
 This demo is based on the example given in developer guide.
 
