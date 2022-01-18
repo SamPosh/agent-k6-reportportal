@@ -134,7 +134,7 @@ export default class RpClient {
         return JSON.parse(response.body).id;
     }
 
-    finishTestStep(id, status, issueType, comment = 'no comments') {
+    finishTestStep(id, status, issueType = null, comment = 'no comments') {
         let payload = {
             'endTime': Date.now(),
             'status': status,
