@@ -8,16 +8,16 @@ import { FormData } from 'https://jslib.k6.io/formdata/0.0.2/index.js';
  * @returns 
  */
 export function startLaunch(reporterOptions) {
-    let reportPortalUri = `${reporterOptions.endpoint}/${reporterOptions.project}`
-    let launchName = reporterOptions.launch;
-    let payload = {
+    const reportPortalUri = `${reporterOptions.endpoint}/${reporterOptions.project}`
+    const launchName = reporterOptions.launch;
+    const payload = {
         'name': `${launchName}`,
         'description': 'K6 load test report',
         'startTime': Date.now(),
         'mode': 'DEFAULT',
         'attributes': [{ 'key': 'build', 'value': '0.1' }, { 'value': 'test' }]
     }
-    let response = http.post(`${reportPortalUri}/launch`, JSON.stringify(payload), getHeader(reporterOptions.token));
+    const response = http.post(`${reportPortalUri}/launch`, JSON.stringify(payload), getHeader(reporterOptions.token));
     return JSON.parse(response.body).id;
 }
 
@@ -33,7 +33,6 @@ export function finishLaunch(launchId, reporterOptions) {
     }
     const response = http.put(`${reportPortalUri}/launch/${launchId}/finish`, JSON.stringify(payload), getHeader(reporterOptions.token));
     console.log(`[FinishLaunch] ${JSON.parse(response.body).message}`);
-
 }
 
 /**
@@ -60,6 +59,14 @@ export default class RpClient {
         this.token = reporterOptions.token
     }
 
+/**
+ * This will return the value of a log batch with a new log entry added.
+ * 
+ * @param {Array} jsonObject
+ * @param {string} message
+ * @param {string} level 
+ * @returns 
+ */
     addLogToBatch(jsonObject, message, level = 'error') {
         let newObject = jsonObject;
         newObject.push({
@@ -72,8 +79,12 @@ export default class RpClient {
         return newObject;
     }
 
+/**
+ * This will upload the log batch to the launch.
+ * 
+ * @param {Array} jsonBody
+ */
     saveLogBatch(jsonBody) {
-        console.log(JSON.stringify(jsonBody))
         let payload = new FormData();
         payload.append('json_request_part', http.file(JSON.stringify(jsonBody), 'json_request_part', 'application/json'));
         const response = http.post(`${this.reportPortalUri}/log`, payload.body(),
@@ -86,6 +97,13 @@ export default class RpClient {
         console.log(`Following logs uploaded: ${response.body}`)
     }
 
+/**
+ * This will upload a single log to the launch.
+ * 
+ * @param {string} message
+ * @param {string} level 
+ * @returns 
+ */
     saveSingleLog(message, level = 'error') {
         const payload = {
             'message': message,
