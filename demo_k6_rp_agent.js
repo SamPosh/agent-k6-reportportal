@@ -39,14 +39,14 @@ export default function (data) {
             'status code MUST be 200': (response) => response.status == 200,
         })
     ) {
-        rpClient.saveSingleLog('Response was not 200', 'error'); // Save single log
+        rpClient.writeLog('Response was not 200', 'error'); // Save single log
         fail('status code was *not* 200');
     }
     logBatch = rpClient.addLogToBatch(logBatch, 'Response *was* 200', 'info'); // Add first log to batch
     console.log(uploadPlugintestStepId);
     const updatePlugintestStepId = rpClient.startTestStep(testId, '(Step) Sleep 1 second', '(Step) Sleep');
     sleep(1);
-    rpClient.saveSingleLog('Sleep', 'info');
+    rpClient.writeLog('Sleep', 'info');
     logBatch = rpClient.addLogToBatch(logBatch, 'Sleep', 'info'); // Add second log to batch
     rpClient.saveLogBatch(logBatch); // Upload log batch to the launch
     //finishTestStep(testStepId,'passed');

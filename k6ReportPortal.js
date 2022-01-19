@@ -112,6 +112,8 @@ export default class RpClient {
         }
         if (id !== null) payload['itemUuid'] = id;
         const response = http.post(`${this.reportPortalUri}/log`, JSON.stringify(payload), getHeader(this.token));
+        console.log(`[writeLog] ${JSON.parse(response.body).id}`);
+        console.log(`[writeLog] ${message}`)
         return JSON.parse(response.body).id;
     }
 
