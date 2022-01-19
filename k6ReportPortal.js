@@ -1,5 +1,4 @@
 import http from 'k6/http';
-import { uuidv4 } from 'https://jslib.k6.io/k6-utils/1.1.0/index.js';
 import { FormData } from 'https://jslib.k6.io/formdata/0.0.2/index.js';
 
 /**
@@ -11,7 +10,7 @@ export function startLaunch(reporterOptions) {
     const reportPortalUri = `${reporterOptions.endpoint}/${reporterOptions.project}`
     const launchName = reporterOptions.launch;
     const payload = {
-        'name': `${launchName}`,
+        'name': launchName,
         'description': 'K6 load test report',
         'startTime': Date.now(),
         'mode': 'DEFAULT',
@@ -70,7 +69,6 @@ export default class RpClient {
     addLogToBatch(jsonObject, message, level = 'error') {
         let newObject = jsonObject;
         newObject.push({
-            itemUuid: uuidv4(),
             message: message,
             time: Date.now(),
             launchUuid: this.launchId,
