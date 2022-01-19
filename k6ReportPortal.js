@@ -58,14 +58,14 @@ export default class RpClient {
         this.token = reporterOptions.token
     }
 
-/**
- * This will return the value of a log batch with a new log entry added.
- * 
- * @param {Array} jsonObject
- * @param {string} message
- * @param {string} level 
- * @returns 
- */
+    /**
+     * This will return the value of a log batch with a new log entry added.
+     * 
+     * @param {Array} jsonObject
+     * @param {string} message
+     * @param {string} level 
+     * @returns 
+     */
     addLogToBatch(jsonObject, message, level = 'error') {
         let newObject = jsonObject;
         newObject.push({
@@ -77,11 +77,11 @@ export default class RpClient {
         return newObject;
     }
 
-/**
- * This will upload the log batch to the launch.
- * 
- * @param {Array} jsonBody
- */
+    /**
+     * This will upload the log batch to the launch.
+     * 
+     * @param {Array} jsonBody
+     */
     saveLogBatch(jsonBody) {
         let payload = new FormData();
         payload.append('json_request_part', http.file(JSON.stringify(jsonBody), 'json_request_part', 'application/json'));
@@ -95,20 +95,22 @@ export default class RpClient {
         console.log(`Following logs uploaded: ${response.body}`)
     }
 
-/**
- * This will upload a single log to the launch.
- * 
- * @param {string} message
- * @param {string} level 
- * @returns 
- */
-    saveSingleLog(message, level = 'error') {
+    /**
+     * This will upload a single log to the launch.
+     * 
+     * @param {string} id
+     * @param {string} message
+     * @param {string} level 
+     * @returns 
+     */
+    writeLog(message, level = 'error', id = null) {
         const payload = {
             'message': message,
             'time': Date.now(),
             'launchUuid': this.launchId,
             'level': level
         }
+        if (id !== null) payload['itemUuid'] = id;
         const response = http.post(`${this.reportPortalUri}/log`, JSON.stringify(payload), getHeader(this.token));
         return JSON.parse(response.body).id;
     }
