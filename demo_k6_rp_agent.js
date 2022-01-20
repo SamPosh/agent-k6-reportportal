@@ -33,21 +33,21 @@ export default function (data) {
     const testId = rpClient.startTest(suiteId, '(Test) PluginServiceTest', 'Test Plugin service');
     console.log(testId);
     const uploadPlugintestStepId = rpClient.startTestStep(testId, '(Step) Check k6 get', '(Step) checkK6get');
+    console.log(uploadPlugintestStepId);
     const res = http.get('http://test.k6.io');
     if (
         !check(res, {
             'status code MUST be 200': (response) => response.status == 200,
         })
     ) {
-        rpClient.writeLog('Response was not 200', 'error'); // Save single log
+        rpClient.writeLog(uploadPlugintestStepId, 'Response was not 200', 'error'); // Save single log
         fail('status code was *not* 200');
     }
-    logBatch = rpClient.addLogToBatch(logBatch, 'Response *was* 200', 'info'); // Add first log to batch
-    console.log(uploadPlugintestStepId);
+    logBatch = rpClient.addLogToBatch(logBatch, 'Response *was* 200', uploadPlugintestStepId, 'info'); // Add first log to batch
     const updatePlugintestStepId = rpClient.startTestStep(testId, '(Step) Sleep 1 second', '(Step) Sleep');
     sleep(1);
-    rpClient.writeLog('Sleep', 'info');
-    logBatch = rpClient.addLogToBatch(logBatch, 'Sleep', 'info'); // Add second log to batch
+    rpClient.writeLog(updatePlugintestStepId, 'Sleep', 'info');
+    logBatch = rpClient.addLogToBatch(logBatch, 'Sleep', updatePlugintestStepId, 'info'); // Add second log to batch
     rpClient.saveLogBatch(logBatch); // Upload log batch to the launch
     //finishTestStep(testStepId,'passed');
     rpClient.finishTestStep(uploadPlugintestStepId, 'failed', 'ab001', '(Step) uploadPlugin Failed');

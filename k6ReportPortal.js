@@ -10,11 +10,11 @@ export function startLaunch(reporterOptions) {
     const reportPortalUri = `${reporterOptions.endpoint}/${reporterOptions.project}`
     const launchName = reporterOptions.launch;
     const payload = {
-        'name': launchName,
-        'description': 'K6 load test report',
-        'startTime': Date.now(),
-        'mode': 'DEFAULT',
-        'attributes': [{ 'key': 'build', 'value': '0.1' }, { 'value': 'test' }]
+        name: launchName,
+        description: 'K6 load test report',
+        startTime: Date.now(),
+        mode: 'DEFAULT',
+        attributes: [{ 'key': 'build', 'value': '0.1' }, { 'value': 'test' }]
     }
     const response = http.post(`${reportPortalUri}/launch`, JSON.stringify(payload), getHeader(reporterOptions.token));
     return JSON.parse(response.body).id;
@@ -66,12 +66,13 @@ export default class RpClient {
      * @param {string} level 
      * @returns 
      */
-    addLogToBatch(jsonObject, message, level = 'error') {
+    addLogToBatch(jsonObject, message, id, level = 'error') {
         let newObject = jsonObject;
         newObject.push({
             message: message,
             time: Date.now(),
             launchUuid: this.launchId,
+            itemUuid: id,
             level: level
         });
         return newObject;
@@ -103,14 +104,14 @@ export default class RpClient {
      * @param {string} level 
      * @returns 
      */
-    writeLog(message, level = 'error', id = null) {
+    writeLog(id, message, level = 'error') {
         const payload = {
-            'message': message,
-            'time': Date.now(),
-            'launchUuid': this.launchId,
-            'level': level
+            itemUuid: id,
+            message: message,
+            time: Date.now(),
+            launchUuid: this.launchId,
+            level: level
         }
-        if (id !== null) payload['itemUuid'] = id;
         const response = http.post(`${this.reportPortalUri}/log`, JSON.stringify(payload), getHeader(this.token));
         console.log(`[writeLog] ${JSON.parse(response.body).id}`);
         console.log(`[writeLog] ${message}`)
@@ -119,11 +120,11 @@ export default class RpClient {
 
     startSuite(suiteName, suiteDescription) {
         const payload = {
-            'name': suiteName,
-            'startTime': Date.now(),
-            'type': 'suite',
-            'launchUuid': this.launchId,
-            'description': suiteDescription
+            name: suiteName,
+            startTime: Date.now(),
+            type: 'suite',
+            launchUuid: this.launchId,
+            description: suiteDescription
         }
         const response = http.post(`${this.reportPortalUri}/item`, JSON.stringify(payload), getHeader(this.token));
         return JSON.parse(response.body).id;
@@ -131,11 +132,11 @@ export default class RpClient {
 
     startTest(suiteId, testcaseName, testDescription) {
         const payload = {
-            'name': testcaseName,
-            'startTime': Date.now(),
-            'type': 'test',
-            'launchUuid': this.launchId,
-            'description': testDescription
+            ßname: testcaseName,
+            startTime: Date.now(),
+            type: 'test',
+            launchUuid: this.launchId,
+            description: testDescription
         }
         const response = http.post(`${this.reportPortalUri}/item/${suiteId}`, JSON.stringify(payload), getHeader(this.token));
         return JSON.parse(response.body).id;
@@ -143,12 +144,12 @@ export default class RpClient {
 
     startTestStep(testId, name, description) {
         const payload = {
-            'name': name,
-            'startTime': Date.now(),
-            'type': 'step',
-            'hasStats': false,
-            'launchUuid': this.launchId,
-            'description': description
+            name: name,
+            startTime: Date.now(),
+            type: 'step',
+            hasStats: false,
+            launchUuid: this.launchId,
+            description: description
         }
         const response = http.post(`${this.reportPortalUri}/item/${testId}`, JSON.stringify(payload), getHeader(this.token));
         return JSON.parse(response.body).id;
@@ -156,15 +157,15 @@ export default class RpClient {
 
     finishTestStep(id, status, issueType = null, comment = 'no comments') {
         let payload = {
-            'endTime': Date.now(),
-            'status': status,
-            'launchUuid': this.launchId
+            endTime: Date.now(),
+            status: status,
+            launchUuid: this.launchId
         }
         if (issueType !== null) {
             payload['issue'] =
             {
-                'issueType': issueType,
-                'comment': comment
+                issueType: issueType,
+                comment: comment
             }
         }
         const response = http.put(`${this.reportPortalUri}/item/${id}`, JSON.stringify(payload), getHeader(this.token));
@@ -173,9 +174,9 @@ export default class RpClient {
 
     finishTest(id, status) {
         const payload = {
-            'status': status,
-            'endTime': Date.now(),
-            'launchUuid': this.launchId
+            status: status,
+            endTime: Date.now(),
+            launchUuid: this.launchId
         }
         const response = http.put(`${this.reportPortalUri}/item/${id}`, JSON.stringify(payload), getHeader(this.token));
         console.log(`[FinishTest]${JSON.parse(response.body).message}`);
@@ -184,8 +185,8 @@ export default class RpClient {
 
     finishSuite(id) {
         const payload = {
-            'endTime': Date.now(),
-            'launchUuid': this.launchId
+            endTime: Date.now(),
+            launchUuid: this.launchId
         }
         const response = http.put(`${this.reportPortalUri}/item/${id}`, JSON.stringify(payload), getHeader(this.token));
         console.log(`[FinishTestSuite] ${JSON.parse(response.body).message}`);
