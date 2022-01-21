@@ -48,7 +48,7 @@ export default function (data) {
     sleep(1);
     rpClient.writeLog(updatePlugintestStepId, 'Sleep', 'info');
     logBatch = rpClient.addLogToBatch(logBatch, 'Sleep', updatePlugintestStepId, 'info'); // Add second log to batch
-    rpClient.saveLogBatch(logBatch); // Upload log batch to the launch
+    rpClient.writeLogBatch(logBatch); // Upload log batch to the launch
     //finishTestStep(testStepId,'passed');
     rpClient.finishTestStep(uploadPlugintestStepId, 'failed', 'ab001', '(Step) uploadPlugin Failed');
     rpClient.finishTestStep(updatePlugintestStepId, 'passed'); // As passed , it doesn't have issue type and comment

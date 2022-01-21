@@ -83,7 +83,7 @@ export default class RpClient {
      * 
      * @param {Array} jsonBody
      */
-    saveLogBatch(jsonBody) {
+     writeLogBatch(jsonBody) {
         let payload = new FormData();
         payload.append('json_request_part', http.file(JSON.stringify(jsonBody), 'json_request_part', 'application/json'));
         const response = http.post(`${this.reportPortalUri}/log`, payload.body(),
