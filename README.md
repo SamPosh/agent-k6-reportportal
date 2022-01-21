@@ -11,6 +11,11 @@ https://github.com/reportportal/documentation/blob/master/src/md/src/DevGuides/r
 StartLaunch should be called in k6 setup function.
 FinishLaunch should be called in k6 teardown function.
 
+StartSuite can be added at the starting of default function.
+FinishSuite can be added at the closing of default function.
+
+refer demo_k6_rp_agent.js file to see the sample usage..
+
 ## reportconfig.json 
 
 Report Config json has project name, token ,launch name and description. Fill it according to your project.
@@ -29,4 +34,5 @@ This is K6 test script with setup ,teardown and default function.
 As K6 doesn't allow object creation in setup() function, startLaunch is a function instead of method.
 
 This demo is based on the example given in developer guide.
+
 
