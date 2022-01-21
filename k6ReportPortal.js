@@ -90,7 +90,7 @@ export default class RpClient {
             {
                 headers: {
                     'Content-Type': `multipart/form-data; boundary=${payload.boundary}`,
-                    'Authorization': `Bearer ${reporterOptions.token}`
+                    'Authorization': `Bearer ${this.token}`
                 }
             });
         console.log(`Following logs uploaded: ${response.body}`)
