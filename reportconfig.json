@@ -4,6 +4,7 @@
         "token": "00000000-0000-0000-0000-000000000000",
         "launch": "K6 Performance Test Launch",
         "project": "SAMPLE_PERFTEST",
-        "description": "K6 Performance Test for my tests"
+        "description": "K6 Performance Test for my tests",
+         "publishResult": false
       }
 }
