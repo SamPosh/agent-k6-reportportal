@@ -5,7 +5,7 @@ Report portal agent
 
 Main library file is K6ReportPortal.js. It contains StartLaunch and FinishLaunch functions.
 Class which contains methods for pushing result to Reportportal under Suite -> Test case -> Test step.
-Also method to add logs in report portal is available
+Also method to add log messages in report portal is available
 
 We created K6 functions for reportportal REST API calls mentioned in the developer guide.
 https://github.com/reportportal/documentation/blob/master/src/md/src/DevGuides/reporting.md
