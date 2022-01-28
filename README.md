@@ -17,14 +17,17 @@ refer demo_k6_rp_agent.js file to see the sample usage..
 
 ## reportconfig.json 
 
-Report Config json has project name, token ,launch name and description. Fill it according to your project.
+Report Config json has project name, token ,launch name,description and publishResult.
+Results will be pushed to report portal only if "publishResult" is set as true.If it is false,results will not be pushed to report portal.
+Fill it according to your project.
 ```
       "reporterOptions": {
         "endpoint": "http://<your report portal ip>:8080/api/v1",
         "token": "00000000-0000-0000-0000-000000000000",
         "launch": "K6 Performance Test Launch",
         "project": "PERFTEST",
-        "description": "K6 Performance Test for my tests"
+        "description": "K6 Performance Test for my tests",
+        "publishResult": true
       }
 ```
 ## demo_k6_rp_agent.js
