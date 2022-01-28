@@ -7,6 +7,9 @@ import { FormData } from 'https://jslib.k6.io/formdata/0.0.2/index.js';
  * @returns 
  */
 export function startLaunch(reporterOptions) {
+    if (!reporterOptions.publishResult){
+        return null
+    }
     const reportPortalUri = `${reporterOptions.endpoint}/${reporterOptions.project}`
     const launchName = reporterOptions.launch;
     const payload = {
@@ -26,6 +29,9 @@ export function startLaunch(reporterOptions) {
  * @param {*} reporterOptions 
  */
 export function finishLaunch(launchId, reporterOptions) {
+    if (!reporterOptions.publishResult){
+        return null
+    }
     const reportPortalUri = `${reporterOptions.endpoint}/${reporterOptions.project}`
     const payload = {
         'endTime': Date.now()
@@ -67,6 +73,9 @@ export default class RpClient {
      * @returns 
      */
     addLogToBatch(jsonObject, message, id, level = 'error') {
+        if (!reporterOptions.publishResult){
+            return null
+        }
         let newObject = jsonObject;
         newObject.push({
             message: message,
@@ -84,6 +93,9 @@ export default class RpClient {
      * @param {Array} jsonBody
      */
      writeLogBatch(jsonBody) {
+        if (!reporterOptions.publishResult){
+            return null
+        }
         let payload = new FormData();
         payload.append('json_request_part', http.file(JSON.stringify(jsonBody), 'json_request_part', 'application/json'));
         const response = http.post(`${this.reportPortalUri}/log`, payload.body(),
@@ -105,6 +117,9 @@ export default class RpClient {
      * @returns 
      */
     writeLog(id, message, level = 'error') {
+        if (!reporterOptions.publishResult){
+            return null
+        }
         const payload = {
             itemUuid: id,
             message: message,
@@ -119,6 +134,9 @@ export default class RpClient {
     }
 
     startSuite(suiteName, suiteDescription) {
+        if (!reporterOptions.publishResult){
+            return null
+        }
         const payload = {
             name: suiteName,
             startTime: Date.now(),
@@ -131,8 +149,11 @@ export default class RpClient {
     }
 
     startTest(suiteId, testcaseName, testDescription) {
+        if (!reporterOptions.publishResult){
+            return null
+        }
         const payload = {
-            ßname: testcaseName,
+            name: testcaseName,
             startTime: Date.now(),
             type: 'test',
             launchUuid: this.launchId,
@@ -143,6 +164,9 @@ export default class RpClient {
     }
 
     startTestStep(testId, name, description) {
+        if (!reporterOptions.publishResult){
+            return null
+        }
         const payload = {
             name: name,
             startTime: Date.now(),
@@ -156,6 +180,9 @@ export default class RpClient {
     }
 
     finishTestStep(id, status, issueType = null, comment = 'no comments') {
+        if (!reporterOptions.publishResult){
+            return null
+        }
         let payload = {
             endTime: Date.now(),
             status: status,
@@ -173,6 +200,9 @@ export default class RpClient {
     }
 
     finishTest(id, status) {
+        if (!reporterOptions.publishResult){
+            return null
+        }
         const payload = {
             status: status,
             endTime: Date.now(),
@@ -184,6 +214,9 @@ export default class RpClient {
     }
 
     finishSuite(id) {
+        if (!reporterOptions.publishResult){
+            return null
+        }
         const payload = {
             endTime: Date.now(),
             launchUuid: this.launchId
