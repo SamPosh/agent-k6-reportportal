@@ -1,5 +1,5 @@
 # agent-k6-reportportal
-Report portal agent
+Report portal agent for K6 performance testing
 
 ## k6ReportPortal.js 
 
