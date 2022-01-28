@@ -29,9 +29,10 @@ Fill it according to your project.
         "description": "K6 Performance Test for my tests",
         "publishResult": true
       }
-  Note: publishResult: false will be useful when you are running for some debugging purpose and you do not want to push 
-  the result to report portal.
 ```
+Note: publishResult: false will be useful when you are running for some debugging purpose and you do not want to push 
+  the result to report portal.
+  
 ## demo_k6_rp_agent.js
 
 This is K6 test script with setup ,teardown and default function.
